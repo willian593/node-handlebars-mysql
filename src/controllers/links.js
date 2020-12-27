@@ -1,6 +1,5 @@
 const { response } = require('express');
 const pool = require('../database');
-const Swal = require('sweetalert2');
 /*
 =====================================
         PAGINA AGREGAR LINK

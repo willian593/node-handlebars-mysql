@@ -9,6 +9,7 @@ const flash = require('connect-flash');
 const session = require('express-session'); // almacena datos en la memoria del service
 const MySQLStore = require('express-mysql-session'); // almacena en BD
 const passport = require('passport');
+
 /*
 =====================================
             Inicializacion
@@ -25,13 +26,13 @@ require('./lib/passport');
 app.use(morgan('dev')); // nuestra por consola las peticiones q van llegando
 app.use(
   session({
-    secret: 'ronaldx', //comienza guardando la seccion
+    secret: 'ronaldx', //comienza guardando la seccion (msj)
     resave: false, // no se renueva la seccion
     saveUninitialized: false, // no s vuelva establecer la seccion
-    store: new MySQLStore(database), // donde s guarda la seccion
+    store: new MySQLStore(database), // donde s guarda la seccion en BD
   })
 );
-app.use(flash()); //sirve para poder enviar msj
+app.use(flash()); //sirve para poder enviar (msj)
 app.use(express.urlencoded({ extended: false })); // aceptar los datos q envia el usuario por formulario
 app.use(express.json());
 app.use(passport.initialize());
@@ -44,6 +45,10 @@ app.use(passport.session());
 =====================================
 */
 app.use((req, res, next) => {
+  /*
+  q da disponible success para usar 
+  en todas las vistas (msj)
+  */
   app.locals.success = req.flash('success');
   next();
 });
@@ -73,6 +78,7 @@ app.use(express.static(path.join(__dirname, 'public')));
         MOTOR DE PLANTILLA
 =====================================
 */
+
 app.set('views', path.join(__dirname, 'views'));
 app.engine(
   '.hbs',
